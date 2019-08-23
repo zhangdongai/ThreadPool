@@ -25,10 +25,11 @@ void Queue<T>::push(const T& t) {
 }
 template <typename T>
 bool Queue<T>::pop(T* const t) {
+    std::lock_guard<std::mutex> lock(mutex_);
     if (queue_.empty()) {
         return false;
     }
-    std::lock_guard<std::mutex> lock(mutex_);
+
     *t = queue_.front();
     queue_.pop();
     return true;
